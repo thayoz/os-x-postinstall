@@ -1,7 +1,7 @@
 #!/bin/bash
 # ------------------------------------------------
 # OS X Sierra Postinstallation and customisation
-# thayoz sep 2016
+# sep 2016
 # ------------------------------------------------
 
 function homebrew_install {
@@ -11,11 +11,16 @@ function homebrew_install {
 
   # check for errors
   brew doctor
-  exit
 }
 
 function homebrew_base_packages {
   brew install bash bash-completion ruby python openssl tree wget
+}
+
+function homebrew_post_install {
+  echo "export PATH=\"/usr/local/bin:/usr/local/opt/ruby/bin\":${PATH}" >> ~/.bash_profile
+  echo "export PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;32m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '" >> ~/.bash_profile
+  echo "if [ -f `brew --prefix`/etc/bash_completion ]; then . `brew --prefix`/etc/bash_completion; fi" >> ~/.bash_profile
 }
 
 function gatekeeper {
@@ -44,3 +49,7 @@ function mas_base_packages {
   mas install 409183694 #Keynote
   mas install 409203825 #Numbers
 }
+
+homebrew_install
+homebrew_base_packages
+homebrew_post_install
