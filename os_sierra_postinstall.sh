@@ -4,6 +4,13 @@
 # sep 2016
 # ------------------------------------------------
 
+#
+# TO DO:
+# Reverse unaturalscrolll and trackpad features
+# Set Device Hostname
+#
+#
+
 function homebrew_install {
   # Install homebew
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -36,7 +43,7 @@ function cask_install {
 }
 
 function cask_base_packages {
-  brew cask install atom google-chrome spotify pixelmator vlc
+  brew cask install atom google-chrome spotify vlc
 }
 
 function mas_install {
@@ -53,3 +60,11 @@ function mas_base_packages {
 homebrew_install
 homebrew_base_packages
 homebrew_post_install
+
+gatekeeper
+
+cask_install
+cask_base_packages
+
+mas_install
+mas_base_packages
