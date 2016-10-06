@@ -1,15 +1,13 @@
 #!/bin/bash
 # ------------------------------------------------
 # OS X Sierra Postinstallation and customisation
-# sep 2016
+# Sep 2016
 # ------------------------------------------------
+#
 
-#
-# TO DO:
-# Reverse unaturalscrolll and trackpad features
-# Set Device Hostname
-#
-#
+DEVICE_NAME=""
+WDIR=$(pwd)
+
 
 function homebrew_install {
   # Install homebew
@@ -43,18 +41,63 @@ function cask_install {
 }
 
 function cask_base_packages {
-  brew cask install atom google-chrome spotify vlc
+  # Install base cask packages
+  brew cask install atom flux google-chrome spotify vlc
 }
 
 function mas_install {
+  # Install MAS (Mac AppStore) command line tool
   brew install mas
 }
 
 function mas_base_packages {
+  # Install App from the Apple AppStore
   mas install 407963104 #Pixelmator
   mas install 409201541 #Pages
   mas install 409183694 #Keynote
   mas install 409203825 #Numbers
+}
+
+function install_font {
+  # Install fonts
+  cp ${WDIR}/fonts/*.ttf /Library/Fonts/
+}
+
+function configure_uid {
+  # Disable UNnatural scroll
+  defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+
+  # Trackpad: enable tap to click for this user and for the login screen
+  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+  defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+  defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+}
+function configure_host {
+  # Set Computername
+  sudo scutil --set ComputerName "$DEVICE_NAME"
+  sudo scutil --set HostName "$DEVICE_NAME"
+  sudo scutil --set LocalHostName "$DEVICE_NAME"
+  sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$DEVICE_NAME"
+}
+
+function configure_finder_desktop {
+  # Show icons for hard drives, servers, and removable media on the desktop
+  defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+  defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
+  defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
+  defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+
+  #Show status bar in finder
+  defaults write com.apple.finder ShowStatusBar -bool true
+
+  # Avoid creating .DS_Store files on network volumes
+  defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+}
+
+function configure_terminal {
+  # Sets the default Terminal THeme PRO
+  defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
+  defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 }
 
 homebrew_install
