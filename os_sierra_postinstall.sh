@@ -10,12 +10,12 @@ WDIR=$(pwd)
 
 
 function homebrew_install {
-  # Install homebew
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-      # Homebrew asks for xcode tools
+	# Install homebew
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	# Homebrew asks for xcode tools
 
-        # check for errors
-	  brew doctor
+	# check for errors
+	brew doctor
 }
 
 function homebrew_base_packages {
