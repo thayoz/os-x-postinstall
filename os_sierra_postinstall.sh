@@ -5,17 +5,17 @@
 # ------------------------------------------------
 #
 
-DEVICE_NAME=""
+DEVICE_NAME="iMac"
 WDIR=$(pwd)
 
 
 function homebrew_install {
-  # Install homebew
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  # Homebrew asks for xcode tools
+	# Install homebew
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	# Homebrew asks for xcode tools
 
-  # check for errors
-  brew doctor
+	# check for errors
+	brew doctor
 }
 
 function homebrew_base_packages {
@@ -42,7 +42,35 @@ function cask_install {
 
 function cask_base_packages {
   # Install base cask packages
-  brew cask install atom flux google-chrome spotify vlc
+  brew cask install \
+    atom \
+    flux \
+    google-chrome \
+    spotify \
+    beyond-compare \
+    chrome \
+    docker \
+    dropbox \
+    fugu \
+    gimp \
+    git \
+    hipchat \
+    iterm \
+    keepassx \
+    little-snitch \
+    owncloud \
+    path-finder \
+    postman \
+    pycharm \
+    skype-for-business \
+    sonos \
+    sourcetree \
+    spotify \
+    sublime-text \
+    vagrant \
+    virtualbox \
+    vmware-fusion \
+    vlc
 }
 
 function mas_install {
@@ -52,10 +80,28 @@ function mas_install {
 
 function mas_base_packages {
   # Install App from the Apple AppStore
-  mas install 407963104 #Pixelmator
-  mas install 409201541 #Pages
-  mas install 409183694 #Keynote
-  mas install 409203825 #Numbers
+  mas install 775737590   #iA Writer
+  mas install 918858936   #Airmail
+  mas install 405843582   #Alfred
+  mas install 408981426   #Aperture
+  mas install 535436797   #Arduino
+  mas install 1055511498  #Day One
+  mas install 406056744   #Evernote
+  mas install 1111570163  #GrandPerspective
+  mas install 446366603   #ifolor Designer
+  mas install 405399194   #Kindle
+  mas install 973213640   #MSG Viewer for Outlook
+  mas install 1142578753  #OmniGraffle
+  mas install 534553406   #Skim
+  mas install 425955336   #Skitch
+  mas install 423368786   #Systemmonitor
+  mas install 485812721   #TweetDeck
+  mas install 411680127   #Wifi Scanner
+  mas install 525912054   #Wifi Signal
+  mas install 784801555   #OneNote
+  mas install 409789998   #Twitter
+  mas install 425424353   #The Unarchiver
+  mas install 568494494   #Pocket
 }
 
 function install_font {
@@ -67,11 +113,12 @@ function configure_uid {
   # Disable UNnatural scroll
   defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
-  # Trackpad: enable tap to click for this user and for the login screen
+	  # Trackpad: enable tap to click for this user and for the login screen
   defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
   defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
   defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 }
+
 function configure_host {
   # Set Computername
   sudo scutil --set ComputerName "$DEVICE_NAME"
@@ -80,7 +127,7 @@ function configure_host {
   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$DEVICE_NAME"
 }
 
-function configure_finder_desktop {
+function configure_finder_desktop {
   # Show icons for hard drives, servers, and removable media on the desktop
   defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
   defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
@@ -100,7 +147,8 @@ function configure_terminal {
   defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 }
 
-homebrew_install
+# main programm		  
+echo "Starting the install"
 homebrew_base_packages
 homebrew_post_install
 
