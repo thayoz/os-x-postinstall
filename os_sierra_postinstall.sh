@@ -100,6 +100,7 @@ function homebrew_install {
 			  defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 		  }
 		  
+echo "Starting the install"
 homebrew_base_packages
 homebrew_post_install
 
