@@ -23,9 +23,16 @@ function homebrew_base_packages {
 }
 
 function homebrew_post_install {
+  # Exports new PATH variable for hombrew binaries
   echo "export PATH=\"/usr/local/bin:/usr/local/opt/ruby/bin\":${PATH}" >> ~/.bash_profile
+  # PS1 Customisation for colored and pretty prompte
   echo "export PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;32m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '" >> ~/.bash_profile
+  # Gets bash complection
   echo "if [ -f `brew --prefix`/etc/bash_completion ]; then . `brew --prefix`/etc/bash_completion; fi" >> ~/.bash_profile
+  # Aliases to get color output for ls and grep + ll shortcut
+  echo "alias ls='ls -G'" >> ~/.bash_profile
+  echo "alias grep='grep --colour=auto'" >> ~/.bash_profile
+  echo "alias ll='ls -la'" >> ~/.bash_profile
 }
 
 function gatekeeper {
@@ -72,6 +79,7 @@ function configure_uid {
   defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
   defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 }
+
 function configure_host {
   # Set Computername
   sudo scutil --set ComputerName "$DEVICE_NAME"
@@ -80,32 +88,34 @@ function configure_host {
   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$DEVICE_NAME"
 }
 
-function configure_finder_desktop {
+#function configure_finder_desktop {
   # Show icons for hard drives, servers, and removable media on the desktop
-  defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-  defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-  defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
-  defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+  #defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+  #defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
+  #defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
+  #defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 
   #Show status bar in finder
-  defaults write com.apple.finder ShowStatusBar -bool true
+  #defaults write com.apple.finder ShowStatusBar -bool true
 
   # Avoid creating .DS_Store files on network volumes
-  defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-}
+  #defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+#}
 
 function configure_terminal {
-  # Sets the default Terminal THeme PRO
+  # Sets the default Terminal Theme PRO
   defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
   defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 }
 
 function compile_lockscreen {
-
+  # Complile le lockscreen.app https://github.com/gaomd/lock-screen-app
+  ${WDIR}/lock-screen-app/build.command
 }
 
 function install_lockscreen {
-  
+  # Install lock-screen-app
+  cp -rf ${WDIR}/lock-screen-app/Lock\ Screen\ Bundle.app /Applications/.
 }
 
 homebrew_install
@@ -119,3 +129,14 @@ cask_base_packages
 
 mas_install
 mas_base_packages
+
+install_font
+
+configure_uid
+
+configure_finder_desktop
+
+configure_terminal
+
+compile_lockscreen
+install_lockscreen
