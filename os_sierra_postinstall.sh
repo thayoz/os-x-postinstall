@@ -1,6 +1,6 @@
 #!/bin/bash
 # ------------------------------------------------
-# OS X Sierra Postinstallation and customisation
+# OS X Sierra Post-installation and customization
 # Sep 2016
 # ------------------------------------------------
 #
@@ -14,7 +14,7 @@ function homebrew_install {
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   # Homebrew asks for xcode tools
 
-  # check for errors
+  # Check for errors
   brew doctor
 }
 
@@ -23,13 +23,13 @@ function homebrew_base_packages {
 }
 
 function homebrew_post_install {
-  # Exports new PATH variable for hombrew binaries
+  # Export new PATH variable for hombrew binaries
   echo "export PATH=\"/usr/local/bin:/usr/local/opt/ruby/bin\":${PATH}" >> ~/.bash_profile
   # PS1 Customisation for colored and pretty prompte
   echo "export PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;32m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '" >> ~/.bash_profile
-  # Gets bash complection
+  # Get bash complection
   echo "if [ -f `brew --prefix`/etc/bash_completion ]; then . `brew --prefix`/etc/bash_completion; fi" >> ~/.bash_profile
-  # Aliases to get color output for ls and grep + ll shortcut
+  # Set aliases to get color output for ls and grep + ll shortcut
   echo "alias ls='ls -G'" >> ~/.bash_profile
   echo "alias grep='grep --colour=auto'" >> ~/.bash_profile
   echo "alias ll='ls -la'" >> ~/.bash_profile
@@ -41,9 +41,9 @@ function gatekeeper {
 }
 
 function cask_install {
-  #Install Cask
+  # Install Cask
   brew tap caskroom/cask
-  #Set /Application as default target directory for apps
+  # Set /Application as default target directory for cask apps
   echo "export HOMEBREW_CASK_OPTS=\"--appdir=/Applications\"" >> ~/.bash_profile
 }
 
@@ -88,19 +88,19 @@ function configure_host {
   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$DEVICE_NAME"
 }
 
-#function configure_finder_desktop {
+function configure_finder_desktop {
   # Show icons for hard drives, servers, and removable media on the desktop
-  #defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-  #defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-  #defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
-  #defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+  defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+  defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
+  defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
+  defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 
-  #Show status bar in finder
-  #defaults write com.apple.finder ShowStatusBar -bool true
+  # Show status bar in finder
+  defaults write com.apple.finder ShowStatusBar -bool true
 
   # Avoid creating .DS_Store files on network volumes
-  #defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-#}
+  defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+}
 
 function configure_terminal {
   # Sets the default Terminal Theme PRO
@@ -115,8 +115,10 @@ function compile_lockscreen {
 
 function install_lockscreen {
   # Install lock-screen-app
-  cp -rf ${WDIR}/lock-screen-app/Lock\ Screen\ Bundle.app /Applications/.
+  cp -rf ${WDIR}/lock-screen-app/Lock\ Screen.app /Applications/.
 }
+
+: <<'END'
 
 homebrew_install
 homebrew_base_packages
@@ -134,9 +136,13 @@ install_font
 
 configure_uid
 
+configure_host
+
 configure_finder_desktop
 
 configure_terminal
 
 compile_lockscreen
 install_lockscreen
+
+END
