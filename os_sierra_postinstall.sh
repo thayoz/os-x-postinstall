@@ -100,6 +100,9 @@ function configure_finder_desktop {
 
   # Avoid creating .DS_Store files on network volumes
   defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+  #Activate OSX dark mode: Dock & menu bar
+  defaults write NSGlobalDomain AppleInterfaceStyle Dark; killall Dock
 }
 
 function configure_terminal {
@@ -118,7 +121,7 @@ function install_lockscreen {
   cp -rf ${WDIR}/lock-screen-app/Lock\ Screen.app /Applications/.
 }
 
-: <<'END'
+#: <<'END'
 
 homebrew_install
 homebrew_base_packages
@@ -145,4 +148,4 @@ configure_terminal
 compile_lockscreen
 install_lockscreen
 
-END
+#END
