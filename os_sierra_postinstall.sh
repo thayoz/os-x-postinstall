@@ -66,7 +66,7 @@ function mas_base_packages {
 }
 
 function install_font {
-  # Install fonts
+  # Install fonts stored in fonts/
   cp ${WDIR}/fonts/*.ttf /Library/Fonts/
 }
 
