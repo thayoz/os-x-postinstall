@@ -16,6 +16,9 @@ function homebrew_install {
 
   # Check for errors
   brew doctor
+  
+  # Opt-out
+  brew analytics off
 }
 
 function homebrew_base_packages {
