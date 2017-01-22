@@ -8,6 +8,24 @@
 DEVICE_NAME=""
 WDIR=$(pwd)
 
+function prompt {
+  #statements
+  echo "Hello, "$USER".  This script will configure OSX Sierra."
+  echo "Preparation:"
+  echo "1.Copy your fonts in the resources/font folder"
+  echo "2.Copy your SSH material in resources/ssh"
+  echo "3.Ensure you are already logged in the macOS AppStore"
+  echo -n "Ready to proceed ? [ENTER]"
+  read next
+  echo "=== HOSTNAME ==="
+  echo -n "Set Computer Hostname [ENTER]:"
+  read DEVICE_NAME
+}
+
+function endprompt {
+  echo "Post-installation COMPLETE"
+  echo "REBOOT REQUIRED ${DEVICE_NAME}"
+}
 
 function homebrew_install {
   # Install homebew
@@ -65,9 +83,9 @@ function mas_base_packages {
   mas install 409203825 #Numbers
 }
 
-function install_font {
-  # Install fonts stored in fonts/
-  cp ${WDIR}/fonts/*.ttf /Library/Fonts/
+function install_fonts {
+  # Install fonts stored in resources/fonts/
+  cp ${WDIR}/resources/fonts/*.ttf /Library/Fonts/
 }
 
 function configure_uid {
@@ -121,7 +139,20 @@ function install_lockscreen {
   cp -rf ${WDIR}/lock-screen-app/Lock\ Screen.app /Applications/.
 }
 
-#: <<'END'
+function configure_ssh {
+  if [ ! -d "~/.ssh" ]; then
+  # Control will enter here if $DIRECTORY doesn't exist.
+    mkdir ~/.ssh
+    chmod 700 ~/.ssh
+  fi
+  # Copy .ssh material
+  cp ${WDIR}/resources/ssh/* ~/.ssh/.
+  # Add password in keychain
+  echo "Enter your .ssh/id_rsa passphrase for Keychain"
+  ssh-add -K
+}
+
+prompt
 
 homebrew_install
 homebrew_base_packages
@@ -135,8 +166,8 @@ cask_base_packages
 mas_install
 mas_base_packages
 
-install_font
-
+install_fonts
+configure_ssh
 configure_uid
 
 configure_host
@@ -148,4 +179,4 @@ configure_terminal
 compile_lockscreen
 install_lockscreen
 
-#END
+endprompt

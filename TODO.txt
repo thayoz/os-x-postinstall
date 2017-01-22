@@ -1,0 +1,8 @@
+1. Install SSH KEY [OK]
+  - Copy backup .ssh/config, .ssh/id_rsa, .ssh/id_rsa.pub
+  - ssh-add -K => Add passphrase to keychain
+2. Configure OS X dark mode
+3. Interactive prompt [OK]
+  - Ask fonts
+  - Ask .ssh
+  - Ask login to appstore
