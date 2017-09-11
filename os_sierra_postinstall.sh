@@ -1,7 +1,7 @@
 #!/bin/bash
 # ------------------------------------------------
 # OS X Sierra Post-installation and customization
-# Sep 2016
+# Sep 2017
 # ------------------------------------------------
 #
 
@@ -34,7 +34,7 @@ function homebrew_install {
 
   # Check for errors
   brew doctor
-  
+
   # Opt-out
   brew analytics off
 }
@@ -142,6 +142,11 @@ function install_lockscreen {
   cp -rf ${WDIR}/lock-screen-app/Lock\ Screen.app /Applications/.
 }
 
+function configure_safari {
+  # Configure safari
+  defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
+}
+
 function configure_ssh {
   if [ ! -d "~/.ssh" ]; then
   # Control will enter here if $DIRECTORY doesn't exist.
@@ -155,31 +160,45 @@ function configure_ssh {
   ssh-add -K
 }
 
+function decrypt_decomp_private {
+  #decrpyt the enc to archive
+  openssl enc -d -aes-256-cbc -in ${WDIR}/ressources/private.enc > ${WDIR}/ressources/private.tar
+  #decompress the archive ressources/private folder
+  tar -xvf ${WDIR}/ressources/private.tar ${WDIR}/ressources/private
+}
+
+function comp_encrypt_private {
+  #compress the ressources/private folder
+  tar -cvf ${WDIR}/ressources/private.tar ${WDIR}/ressources/private
+  #encrpyt the tar archive
+  openssl enc -aes-256-cbc -salt -in ${WDIR}/ressources/private.tar -out ${WDIR}/ressources/private.enc
+}
+
 prompt
 
-homebrew_install
-homebrew_base_packages
-homebrew_post_install
+#homebrew_install
+#homebrew_base_packages
+#homebrew_post_install
 
-gatekeeper
+#gatekeeper
 
-cask_install
-cask_base_packages
+#cask_install
+#cask_base_packages
 
-mas_install
-mas_base_packages
+#mas_install
+#mas_base_packages
 
-install_fonts
-configure_ssh
-configure_uid
+#install_fonts
+#configure_ssh
+#configure_uid
 
-configure_host
+#configure_host
 
-configure_finder_desktop
+#configure_finder_desktop
 
-configure_terminal
+#configure_terminal
 
-compile_lockscreen
-install_lockscreen
+#compile_lockscreen
+#install_lockscreen
 
 endprompt

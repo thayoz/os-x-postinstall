@@ -10,6 +10,7 @@ ehthumbs.db
 Thumbs.db
 *.app
 
+
 **/.DS_Store
 **/.DS_Store?
 **/._*
@@ -18,3 +19,6 @@ Thumbs.db
 **/ehthumbs.db
 **/Thumbs.db
 **/*.app
+
+# Do not commit private content
+resources/private/*
