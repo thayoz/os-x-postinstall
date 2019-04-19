@@ -1,7 +1,7 @@
 #!/bin/bash
 # ------------------------------------------------
-# OS X Sierra Post-installation and customization
-# Sep 2017
+# OS X Mojave Post-installation and customization
+# Apr 2019
 # ------------------------------------------------
 #
 
@@ -56,11 +56,6 @@ function homebrew_post_install {
   echo "alias ll='ls -la'" >> ~/.bash_profile
 }
 
-function gatekeeper {
-  #Set the gatekeeper status to allow installation from apps outside of the appstore
-  sudo spctl --master-disable
-}
-
 function cask_install {
   # Install Cask
   brew tap caskroom/cask
@@ -70,7 +65,7 @@ function cask_install {
 
 function cask_base_packages {
   # Install base cask packages
-  brew cask install atom flux google-chrome spotify vlc
+  brew cask install atom google-chrome spotify
 }
 
 function mas_install {
@@ -132,16 +127,6 @@ function configure_terminal {
   defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 }
 
-function compile_lockscreen {
-  # Complile le lockscreen.app https://github.com/gaomd/lock-screen-app
-  ${WDIR}/lock-screen-app/build.command
-}
-
-function install_lockscreen {
-  # Install lock-screen-app
-  cp -rf ${WDIR}/lock-screen-app/Lock\ Screen.app /Applications/.
-}
-
 function configure_safari {
   # Configure safari
   defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
@@ -176,29 +161,24 @@ function comp_encrypt_private {
 
 prompt
 
-#homebrew_install
-#homebrew_base_packages
-#homebrew_post_install
+homebrew_install
+homebrew_base_packages
+homebrew_post_install
 
-#gatekeeper
+cask_install
+cask_base_packages
 
-#cask_install
-#cask_base_packages
+mas_install
+mas_base_packages
 
-#mas_install
-#mas_base_packages
-
-#install_fonts
+install_fonts
 #configure_ssh
-#configure_uid
+configure_uid
 
-#configure_host
+configure_host
 
-#configure_finder_desktop
+configure_finder_desktop
 
-#configure_terminal
-
-#compile_lockscreen
-#install_lockscreen
+configure_terminal
 
 endprompt
